@@ -4,6 +4,7 @@ import aiohttp
 import asyncio
 import json
 from fpl import FPL
+import time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -50,7 +51,14 @@ def saveJson(json_file):
 
 if sys.version_info >= (3, 7):
     # Python 3.7+
+    start_time = time.time()
     asyncio.run(my_league(os.getenv("LEAGUE_ID")))
+
+    end_time = time.time()
+
+    print("----------------------------\n")
+
+    print(f"Execution time: {end_time - start_time} seconds")
 
 else:
     # Python 3.6
