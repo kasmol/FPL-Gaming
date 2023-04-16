@@ -4,6 +4,7 @@ import aiohttp
 import asyncio
 import json
 from fpl import FPL
+import time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -42,7 +43,7 @@ async def my_league(league_id):
 
             print(entry['id'], entry['Name'], entry['Total'], entry['Event_total'])
 
-
+# Function to save a list to json file
 def saveJson(json_file):
     with open('league_details', 'w') as outputfile:
         json.dump(json_file, outputfile)
@@ -50,9 +51,16 @@ def saveJson(json_file):
 
 if sys.version_info >= (3, 7):
     # Python 3.7+
-    asyncio.run(my_league(2390172))
+    start_time = time.time()
+    asyncio.run(my_league(os.getenv("LEAGUE_ID")))
+
+    end_time = time.time()
+
+    print("----------------------------\n")
+
+    print(f"Execution time: {end_time - start_time} seconds")
 
 else:
     # Python 3.6
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(my_league(2390172))
+    loop.run_until_complete(my_league(os.getenv("LEAGUE_ID")))
